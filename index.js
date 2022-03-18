@@ -5,6 +5,7 @@ const bodyParser = require("body-parser")
 const multer = require("multer")
 const cors = require('cors')
 const path = require("path")
+const morgan = require("morgan")
 //routes
 const authRouter = require("./routes/auth")
 const usersRouter = require("./routes/users.routes")
@@ -47,7 +48,7 @@ const storage = multer.diskStorage({
 
 
 const upload = multer({storage: storage})
-app.post("/upload", upload.single("file", (req, res)=>{
+app.post("api/upload", upload.single("file", (req, res)=>{
     try{
         res.status(200).json("file has been uploaded")
     }catch(err){
@@ -58,11 +59,12 @@ app.post("/upload", upload.single("file", (req, res)=>{
 app.use("/images", express.static(path.resolve(__dirname, "./", "images")))
 app.use((req, res, next)=>{
     res.header("Access-Control-Allow-Origin", "/*");
-    res.header("Access-Control-Allow-Methods", 'GET,POST');
+    res.header("Access-Control-Allow-Methods", 'GET,POST','PUT','DELETE');
     app.use(cors())
     next();
 })
 app.use(cors())
+app.use(morgan("dev"))
 
 //config. routes
 app.use(bodyParser.json())
