@@ -73,6 +73,5 @@ app.use("/api/users", usersRouter)
 app.use("/api/posts", postsRouter)
 app.use("/api/categories", categoryRouter)
 
-app.listen("5000", (req, res)=>{
-    console.log("it up")
-})
+const PORT=process.env.PORT
+app.listen(PORT, console.log("Servidor Inicializado!"))
